@@ -14,22 +14,46 @@ vignette: >
 
 # Introduction
 
-The **EpiDISH** package provides tools to infer the fractions of a priori known cell subtypes present in a sample representing a mixture of such cell-types. Inference proceeds via one of 3 methods (Robust Partial Correlations-RPC[@EpiDISH], Cibersort-CBS[@CBS], Constrained Projection-CP[@CP]), as determined by the user. Besides, we also provide a function - CellDMC which allows the identification of differentially methylated cell-types in Epigenome-Wide Association Studies(EWAS)[@CellDMC].
+The **EpiDISH** package provides tools to infer the fractions of a priori known cell subtypes present in a DNA methylation (DNAm) sample representing a mixture of such cell-types. Inference proceeds via one of 3 methods (Robust Partial Correlations-RPC[@EpiDISH], Cibersort-CBS[@CBS], Constrained Projection-CP[@CP]), as determined by the user. Besides, we also provide a function - CellDMC which allows the identification of differentially methylated cell-types in Epigenome-Wide Association Studies(EWAS)[@CellDMC]. For now, *the package contains 6 DNAm reference matrices*, three of which are designed for *whole blood* [@EpiDISH] and [@MetaEWAS]:
 
-For now, the package contains 4 references, including two whole blood subtypes reference, one generic epithelial reference with epithelial cells, fibroblasts, and total immune cells, and one reference for breast tissue, as described in [@EpiDISH] and [@HEpiDISH].
+1. `centDHSbloodDMC.m`: This DNAm reference matrix for blood will estimate fractions for 7 immune cell types (B-cells, NK-cells, CD4T and CD8T-cells, Monocytes, Neutrophils and Eosinophils).
+2. `cent12CT.m`: This DNAm reference matrix for blood and EPIC-arrays will estimate fractions for 12 immune-cell types (naive and mature B-cells, naive and mature CD4T-cells, naive and mature B-cells, T-regulatory cells, NK-cells, Neutrophils, Monocytes, Eosinophils, Basophils).
+3. `cent12CT450k.m`: This DNAm reference matrix for blood and Illumina 450k-arrays will estimate fractions for 12 immune-cell types (naive and mature B-cells, naive and mature CD4T-cells, naive and mature B-cells, T-regulatory cells, NK-cells, Neutrophils, Monocytes, Eosinophils, Basophils).
 
 
-# How to estimte cell-type fractions using DNAm data
+The other 3 DNAm reference matrices are designed for solid tissue-types [@HEpiDISH]:
 
-To show how to use our package, we constructed and stored a dummy beta value matrix *DummyBeta.m*, which contains 2000 CpGs and 10 samples, in our package.
+1. `centEpiFibIC.m`: This DNAm reference matrix is designed for a generic solid tissue that is dominated by an epithelial, stromal and immune-cell component. It will estimate fractions for 3 broad cell-types: a generic epithelial, fibroblast and immune-cell type.
+2. `centBloodSub.m`: This DNAm reference matrix is designed for a solid tissue-type and will estimate immune cell infiltration for 7 immune cell subtypes. This DNAm reference matrix is meant to be applied after `centEpiFibIC.m` to yield proportions for 7 immune cell subtypes alongside the total epithelial and total fibroblast fractions.
+3. `centEpiFibFatIC.m`: This DNAm reference matrix is a more specialised version for breast tissue and will estimate total epithelial, fibroblast, immune-cell and fat fractions.
 
-We first load **EpiDISH** package, *DummyBeta.m* and the EpiFibIC reference.
+
+# How to estimate cell-type fractions in blood
+
+We show an example of using our package to estimate 7 immune cell-type fractions in whole blood. We use a subset beta value matrix of GSE42861 (detailed description in manual page of *LiuDataSub.m*). First, we read in the required objects:
 ```{r load, eval=TRUE, echo=T, message=FALSE, warning=FALSE}
 library(EpiDISH)
+data(centDHSbloodDMC.m)
+data(LiuDataSub.m)
+```
+
+```{r inferBlood, eval=TRUE, echo=T, message=FALSE, warning=FALSE}
+BloodFrac.m <- epidish(beta.m = LiuDataSub.m, ref.m = centDHSbloodDMC.m, method = "RPC")$estF
+```
+
+We can easily check the inferred fractions with boxplots. From the boxplots, we observe that just as we expected, the major cell-type in whole blood is neutrophil.
+```{r boxplot, eval=TRUE, echo=T, message=FALSE, warning=FALSE, fig.height = 5, fig.width = 8, fig.align = "center"}
+boxplot(BloodFrac.m)
+```
+
+If we wanted to infer fractions at a higher resolution of 12 immune cell subtypes, we would replace `centDHSbloodDMC.m` in the above with `cent12CT450k.m` because this is a 450k DNAm dataset. For an EPIC whole blood dataset, you would use `cent12CT.m`.
+
+# How to estimate generic cell-type fractions in a solid tissue
+To illustrate how this works, we first read in a dummy beta value matrix *DummyBeta.m*, which contains 2000 CpGs and 10 samples, representing a solid tissue:
+```{r load2, eval=TRUE, echo=T, message=FALSE, warning=FALSE}
 data(centEpiFibIC.m)
 data(DummyBeta.m)
 ```
-
 Notice that *centEpiFibIC.m* has 3 columns, with names of the columns as EPi, Fib and IC. We go ahead and use *epidish* function with *RPC* mode to infer the cell-type fractions.
 ```{r infer, eval=TRUE, echo=T, message=FALSE, warning=FALSE}
 out.l <- epidish(beta.m = DummyBeta.m, ref.m = centEpiFibIC.m, method = "RPC") 
@@ -42,26 +66,13 @@ dim(out.l$ref)
 dim(out.l$dataREF)
 ```
 
-In quality control step of DNAm data preprocessing, we might remove bad probes from all probes on 450k or 850k array; consequently, not all probes in the reference could be found in the given dataset. By checking *ref* and *dataREF*, we can extract the probes actually used to biuld the model and infer the cell-type fractions. If the majority of the probes in the reference cannot be found, the estimated fractionss might be compromised.
-
-And now we show an example of using our package to estimate cell-type fractions of whole blood tissues. We use a subset beta value matrix of GSE42861 (detailed description in manaul page of *LiuDataSub.m*).
-
-```{r inferBlood, eval=TRUE, echo=T, message=FALSE, warning=FALSE}
-data(LiuDataSub.m)
-BloodFrac.m <- epidish(beta.m = LiuDataSub.m, ref.m = centDHSbloodDMC.m, method = "RPC")$estF
-```
-
-We can easily check the inferred fractions with boxplots. From the boxplots, we observe that just as we expected, the major cell-type in whole blood is neutrophil.
-```{r boxplot, eval=TRUE, echo=T, message=FALSE, warning=FALSE, fig.height = 5, fig.width = 8, fig.align = "center"}
-boxplot(BloodFrac.m)
-```
+Note: As part of the quality control step in DNAm data preprocessing, we might have to remove bad probes; consequently, not all probes in the reference matrix may be available in a given dataset. By checking *ref* and *dataREF*, we can extract the probes actually used for estimating cell-type fractions. As shown by us [@HEpiDISH], if the proportion of missing reference matrix probes is more than a third, then estimated fractions may be unreliable. 
 
 
-
-# How to estimte cell-type fractions in the two-step framework
-HEpiDISH is an iterative hierarchical procedure of EpiDISH. HEpiDISH uses two distinct DNAm references, a primary reference for the estimation of fractions of several cell-types and a separate secondary non-overlapping DNAm reference for the estimation of underlying subtype fractions of one of the cell-type in the primary reference.
+# How to estimate immune cell-type fractions in a solid tissue using HEpiDISH
+HEpiDISH is an iterative hierarchical procedure of EpiDISH designed for solid tissues with significant immune-cell infiltration. HEpiDISH uses two distinct DNAm references, a primary reference for the estimation of total epithelial, fibroblast and immune-cell fractions, and a separate secondary non-overlapping DNAm reference for the estimation of underlying immune cell subtype fractions. 
 ![Fig1. HEpiDISH workflow](HEpiDISH.jpg) 
-In this example, the third cell-type in primary reference is total immune cell. We would like to know the fractions of immune cell subtypes. So we use a secondary reference, which contains 7 immnue cell subtypes, and let **hepidish** function know that the third column of primary reference should correspond to the secodnary reference. (We only include 3 cell-types of the *centBloodSub.m* reference because we mixed those three cell-types to generate the dummy beta value matrix.)
+In this example, the third cell-type in the primary DNAm reference matrix is the total immune cell fraction. We would like to know the fractions of 7 immune cell subtypes, in adddition to the epithelial and fibroblast fractions. So we use a secondary reference, which contains 7 immnue cell subtypes, and let **hepidish** function know that the third column of primary reference should correspond to the secondary DNAm reference matrix. (We only include 3 cell-types of the *centBloodSub.m* reference because we mixed those three cell-types to generate the dummy beta value matrix.)
 ```{r hepidish, eval=TRUE, echo=T, message=FALSE, warning=FALSE}
 data(centBloodSub.m)
 frac.m <- hepidish(beta.m = DummyBeta.m, ref1.m = centEpiFibIC.m, ref2.m = centBloodSub.m[,c(1, 2, 5)], h.CT.idx = 3, method = 'RPC')
