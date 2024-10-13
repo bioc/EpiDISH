@@ -182,6 +182,7 @@ DoCBS <- function(beta.m, ref.m, nu.v) {
 DoCP <- function(beta.m, ref.m, constraint) {
 
     nCT <- ncol(ref.m)
+
     ### for inequality and equality, coe.v is different
     if (constraint == "inequality") {
         coe.v <- c(-1, 0)
