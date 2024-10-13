@@ -180,9 +180,9 @@ DoCBS <- function(beta.m, ref.m, nu.v) {
 #' @importFrom quadprog solve.QP   
 ### Houseman CP
 DoCP <- function(beta.m, ref.m, constraint) {
-    ### define D matrix
+    
     nCT <- ncol(ref.m)
-    D <- 2 * apply(ref.m, 2, function(x) colSums(x * ref.m))
+
     
     ### for inequality and equality, coe.v is different
     if (constraint == "inequality") {
@@ -203,6 +203,10 @@ DoCP <- function(beta.m, ref.m, constraint) {
     
     map.idx <- match(rownames(ref.m), rownames(beta.m))
     rep.idx <- which(is.na(map.idx) == FALSE)
+
+    ### define D matrix
+    D <- 2 * apply(ref.m[rep.idx,], 2, function(x) colSums(x * ref.m[rep.idx,]))
+
     for (s in seq_len(nS)) {
         tmp.v <- beta.m[, s]
         d.v <- as.vector(2 * matrix(tmp.v[map.idx[rep.idx]], nrow = 1) %*% ref.m[rep.idx, 
