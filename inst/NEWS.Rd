@@ -2,6 +2,12 @@
 \title{EpiDISH News}
 \encoding{UTF-8}
 
+\section{Version 2.23.1}{
+  \itemize{
+    \item Added unified lifecourse 19 immune cell-type reference matrix for 450k and EPIC arrays.
+  }
+}
+
 \section{Version 2.15.0}{
   \itemize{
     \item Add 12 blood cell-type DNAm reference matrix for 450k and EPIC arrays.

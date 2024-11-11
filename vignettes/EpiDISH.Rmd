@@ -14,11 +14,12 @@ vignette: >
 
 # Introduction
 
-The **EpiDISH** package provides tools to infer the fractions of a priori known cell subtypes present in a DNA methylation (DNAm) sample representing a mixture of such cell-types. Inference proceeds via one of 3 methods (Robust Partial Correlations-RPC[@EpiDISH], Cibersort-CBS[@CBS], Constrained Projection-CP[@CP]), as determined by the user. Besides, we also provide a function - CellDMC which allows the identification of differentially methylated cell-types in Epigenome-Wide Association Studies(EWAS)[@CellDMC]. For now, *the package contains 6 DNAm reference matrices*, three of which are designed for *whole blood* [@EpiDISH] and [@MetaEWAS]:
+The **EpiDISH** package provides tools to infer the fractions of a priori known cell subtypes present in a DNA methylation (DNAm) sample representing a mixture of such cell-types. Inference proceeds via one of 3 methods (Robust Partial Correlations-RPC[@EpiDISH], Cibersort-CBS[@CBS], Constrained Projection-CP[@CP]), as determined by the user. Besides, we also provide a function - CellDMC which allows the identification of differentially methylated cell-types in Epigenome-Wide Association Studies(EWAS)[@CellDMC]. For now, *the package contains 7 DNAm reference matrices*, three of which are designed for *adult whole blood* [@EpiDISH] and [@MetaEWAS], and one which is designed for blood tissue of any age, including cord-blood and blood from infants, children, adolescents and adults.
 
 1. `centDHSbloodDMC.m`: This DNAm reference matrix for blood will estimate fractions for 7 immune cell types (B-cells, NK-cells, CD4T and CD8T-cells, Monocytes, Neutrophils and Eosinophils).
 2. `cent12CT.m`: This DNAm reference matrix for blood and EPIC-arrays will estimate fractions for 12 immune-cell types (naive and mature B-cells, naive and mature CD4T-cells, naive and mature B-cells, T-regulatory cells, NK-cells, Neutrophils, Monocytes, Eosinophils, Basophils).
 3. `cent12CT450k.m`: This DNAm reference matrix for blood and Illumina 450k-arrays will estimate fractions for 12 immune-cell types (naive and mature B-cells, naive and mature CD4T-cells, naive and mature B-cells, T-regulatory cells, NK-cells, Neutrophils, Monocytes, Eosinophils, Basophils).
+4. `centUniLIFE.m`: This DNAm reference matrix for blood-tissue of any age will estimate fractions for 19 immune-cell types including 7 youthful cord-blood subtypes (B-cells, NK-cells, Granulocytes, Monocytes, nRBCs, CD4T and CD8T-cells) and 12 adult immune cell types (naive and mature B-cells, naive and mature CD4T-cells, naive and mature B-cells, T-regulatory cells, NK-cells, Neutrophils, Monocytes, Eosinophils, Basophils).
 
 
 The other 3 DNAm reference matrices are designed for solid tissue-types [@HEpiDISH]:
@@ -30,7 +31,7 @@ The other 3 DNAm reference matrices are designed for solid tissue-types [@HEpiDI
 
 # How to estimate cell-type fractions in blood
 
-We show an example of using our package to estimate 7 immune cell-type fractions in whole blood. We use a subset beta value matrix of GSE42861 (detailed description in manual page of *LiuDataSub.m*). First, we read in the required objects:
+We show an example of using our package to estimate 7 immune cell-type fractions in adult whole blood. We use a subset beta value matrix of GSE42861 (detailed description in manual page of *LiuDataSub.m*). First, we read in the required objects:
 ```{r load, eval=TRUE, echo=T, message=FALSE, warning=FALSE}
 library(EpiDISH)
 data(centDHSbloodDMC.m)

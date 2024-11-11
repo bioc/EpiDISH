@@ -37,7 +37,7 @@ citEntry(
   year=2018,
   volume= 10,
   number=7,
-  textVersion="Zheng SC, Webster AP, Dong D, Feber A, Graham DG, Sullivan R, Jevons S, Lovat LB, Beck S, Widschwendter M, Teschendorff AE. 2018. Identification of differentially methylated cell-types in Epigenome-Wide Association Studies. Epigenomics 10: 925-940."
+  textVersion="Zheng SC, Webster AP, Dong D, Feber A, Graham DG, Sullivan R, Jevons S, Lovat LB, Beck S, Widschwendter M, Teschendorff AE. 2018. A novel cell-type deconvolution algorithm reveals substantial contamination by immune cells in saliva, buccal and cervix. Epigenomics 10: 925-940."
 )
 
 
@@ -57,6 +57,37 @@ citEntry(
   year=2017,
   
   textVersion="Teschendorff AE, Breeze CE, Zheng SC, Beck S. 2017. A comparison of reference-based algorithms for correcting cell-type heterogeneity in Epigenome-Wide Association Studies. BMC Bioinformatics 18: 105."
+)
+
+citEntry(
+  entry="article",
+  author = c(
+             person("Qi","Luo"),
+             person(c("Varun", "B."), "Dwaraka"),
+             person("Qingwen", "Chen"),
+             person("Huige", "Tong"),
+             person("Tianyu", "Zhu"),
+             person("Kirsten", "Seale"),                  
+             person(c("Joseph","M."),"Raffaele"),
+             person(c("Shijie","C."),"Zheng"),
+             person(c("Tavis","L."),"Mendez"),
+             person("Yulu","Chen"),
+             person("Natalia","Carreras"),
+             person("Sofina","Begum"),
+             person("Kevin","Mendez"),
+             person("Sarah","Voisin"),
+             person("Nir","Eynon"),
+             person(c("Jessica","A."),"Lasky-Su"),      
+             person("Ryan","Smith"),      
+             person(c("Andrew", "E."), "Teschendorff")
+           ),
+  title="A meta-analysis of immune-cell fractions at high resolution reveals novel associations with common phenotypes and health outcomes",
+  journal="Genome Medicine",
+  volume= 15,
+  number=1,
+  pages=59,
+  year=2023,
+  textVersion="Luo Q et al. A meta-analysis of immune-cell fractions at high resolution reveals novel associations with common phenotypes and health outcomes. Genome Med. 2023 Jul 31;15(1):59."
 )
 
 citEntry(

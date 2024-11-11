@@ -32,11 +32,13 @@ This reference is constructed using data from Salas et al.(2022). It contains
 }
 }
 \references{
-Lucas A Salas, Ze Zhang, Devin C Koestler, Rondi A Butler, Helen M Hansen,
- Annette M Molinaro, John K Wiencke, Karl T Kelsey, Brock C Christensen
-\emph{Enhanced cell deconvolution of peripheral blood using DNA methylation for high-resolution immune profiling.}
-Nat Commun. (2022) 13: 761.
-doi:\href{https://doi.org/10.1038/s41467-021-27864-7}{
-10.1038/s41467-021-27864-7}.
+Qi Luo, Varun B Dwaraka, Qingwen Chen, Huige Tong, Tianyu Zhu,Kirsten
+Seale, Joseph M Raffaele, Shijie C Zheng, Tavis L Mendez, Yulu Chen,
+Natalia Carreras, Sofina Begum, Kevin Mendez, Sarah Voisin, Nir Eynon,
+Jessica A Lasky-Su, Ryan Smith, Andrew E Teschendorff. \emph{A
+  meta-analysis of immune-cell fractions at high resolution reveals
+  novel associations with common phenotypes and health outcomes.} Genome
+Med. (2023) 15(1): 59.
+doi:\href{https://doi.org/10.1186/s13073-023-01211-5}{10.1186/s13073-023-01211-5}.
 }
 \keyword{datasets}
